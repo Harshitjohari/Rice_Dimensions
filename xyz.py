@@ -62,7 +62,7 @@ for cnt in cnts:
 	cv2.putText(image, "{:.1f}mm".format(wid), (int(mid_pt_horizontal[0] - 15), int(mid_pt_horizontal[1] - 10)),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)
 	cv2.putText(image, "{:.1f}mm".format(ht), (int(mid_pt_verticle[0] + 10), int(mid_pt_verticle[1])),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)
 
-count=0
+
 rice =[]
 for cnt in cnts:
 	box = cv2.minAreaRect(cnt)
@@ -75,10 +75,6 @@ for cnt in cnts:
 	mid_pt_verticle = (tr[0] + int(abs(tr[0] - br[0])/2), tr[1] + int(abs(tr[1] - br[1])/2))
 	wid = euclidean(tl, tr)/pixel_per_cm
 	ht = euclidean(tr, br)/pixel_per_cm
-	count=count+1
-	#print("width={:.1f}mm".format(wid),"height={:.1f}mm".format(ht))
-	# print(format(wid))
-	# print(list(round(wid)))
 	rice.append(round(wid,2))
 
 rice.sort()
