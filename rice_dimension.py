@@ -14,7 +14,7 @@ def show_images(images):
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
 
-img_path = "/home/harshit/Desktop/dimensions/img/123.png"
+img_path = "/home/harshit/Desktop/Rice_Dimensions/img/input_image.jpeg"
 
 
 image = cv2.imread(img_path)
@@ -48,6 +48,7 @@ dist_in_cm = 1
 pixel_per_cm = dist_in_pixel/dist_in_cm
 
 rice =[]
+count=0
 
 for cnt in cnts:
 	box = cv2.minAreaRect(cnt)
@@ -61,18 +62,74 @@ for cnt in cnts:
 	wid = euclidean(tl, tr)/pixel_per_cm
 	ht = euclidean(tr, br)/pixel_per_cm
 	rice.append(round(wid,2))
-	cv2.putText(image, "{:.1f}mm".format(wid), (int(mid_pt_horizontal[0] - 15), int(mid_pt_horizontal[1] - 10)),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)
-	cv2.putText(image, "{:.1f}mm".format(ht), (int(mid_pt_verticle[0] + 10), int(mid_pt_verticle[1])),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)
+	cv2.putText(image, "{:.1f}cm".format(wid), (int(mid_pt_horizontal[0] - 15), int(mid_pt_horizontal[1] - 10)),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)
+	cv2.putText(image, "{:.1f}cm".format(ht), (int(mid_pt_verticle[0] + 10), int(mid_pt_verticle[1])),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)
 
 
 rice.sort()
-#print(rice)
-
 a=np.asarray(rice)
 
-for i in a:
-	print("Rice Width=",i,"mm")
+mn=min(a)
+mx=a[len(a)-2]
 
-cv2.imshow("image",image)
-cv2.waitKey(0)
-cv2.imwrite("/home/harshit/Desktop/dimensions/result/result.png",image)
+parts =10
+r=round(((mx-mn)/parts),2)
+
+
+x=0
+
+while x < parts:
+	sp=mn + (x*r)
+	ep=mn + (x+1)*r
+	for i in a:
+		if(i>=sp and i<=ep ):
+			count =count+1
+	print("Rice btw. ",sp,"cm to",ep,"=" ,count)
+	count=0
+	x += 1
+
+
+cv2.imshow("ESC to back",image)
+cv2.waitKey(1000)
+cv2.imwrite("/home/harshit/Desktop/Rice_Dimensions/result/result.png",image)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
